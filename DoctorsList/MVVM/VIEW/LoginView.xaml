@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DoctorsList.MVVM.VIEW.LoginView"
+             xmlns:VM="clr-namespace:DoctorsList.MVVM.VIEWMODEL"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled">
+    <ContentPage.BindingContext>
+        <VM:LoginViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <Style TargetType="Entry" x:Key="InvalidEntryStyle">
+            <Setter Property="PlaceholderColor"
+                    Value="Red"/>
+            <Setter Property="BackgroundColor"
+                    Value="LightSalmon"/>
+            <Setter Property="TextColor"
+                    Value="Red"/>
+        </Style>
+        <Style TargetType="Entry" x:Key="ValidEntryStyle">
+            <Setter Property="PlaceholderColor"
+            Value="Gray"/>
+            <Setter Property="BackgroundColor"
+                    Value="White"/>
+            <Setter Property="TextColor"
+                    Value="Black"/>
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding onAppearingCommand}"/>
+    </ContentPage.Behaviors>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+            Text="My Contacts App"
+               FontSize="40"
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand"/>
+        
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="CenterAndExpand" Spacing="5">
+
+            <Entry Placeholder="Username"
+                   Text="{Binding UserCredentials.User}"
+                   MaxLength="20">
+                <Entry.Behaviors>
+                    <toolkit:EmailValidationBehavior
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                ValidStyle="{StaticResource ValidEntryStyle}"
+                                Flags="ValidateOnValueChanged"/>
+                </Entry.Behaviors>
+            </Entry>
+            <Entry Placeholder="Password"
+                   IsPassword="True"
+                   Text="{Binding UserCredentials.Password}"
+                   MaxLength="15">  
+                <Entry.Behaviors>
+                    <toolkit:TextValidationBehavior
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                ValidStyle="{StaticResource ValidEntryStyle}"
+                                MinimumLength="1"
+                                MaximumLength="15"
+                                Flags="ValidateOnValueChanged"/>    
+                </Entry.Behaviors>
+            </Entry>
+        </VerticalStackLayout>
+
+        <Button Text="LogIn" Grid.Row="2" BackgroundColor="orange"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                WidthRequest="150"
+                Command="{Binding LoginCommand}"/>
+    </Grid>
+    
+</ContentPage>
