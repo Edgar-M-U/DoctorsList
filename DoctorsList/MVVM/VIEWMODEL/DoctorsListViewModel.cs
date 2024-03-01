@@ -142,7 +142,7 @@ namespace DoctorsList.MVVM.VIEWMODEL
                             double total = 0;
                             for (int i = 0; i < 10; i++)
                             {
-                                total += random.Next(0, 100);
+                                total += random.Next(0, 5);
                             }
 
                             item.Rating = total / 10;
