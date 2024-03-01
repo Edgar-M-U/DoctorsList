@@ -2,11 +2,141 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DoctorsList.MVVM.VIEW.DoctorDetailView"
-             Title="UserDetailView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Detail View!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:VM="clr-namespace:DoctorsList.MVVM.VIEWMODEL"
+             xmlns:models="clr-namespace:DoctorsList.MVVM.MODEL"
+             xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+             Shell.BackgroundColor="DarkSlateGrey"
+             BackgroundColor="White">
+    <ContentPage.BindingContext>
+        <VM:DoctorDetailViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <x:String x:Key="LocPin">&#xf3c5;</x:String>
+        <x:String x:Key="Star">&#xf005;</x:String>
+    </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding onAppearingCommand}"/>
+    </ContentPage.Behaviors>
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="Fill">
+            <Label Text="Doctor Details"
+                   TextColor="White"
+                   VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="Medium"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <Grid Margin="30,30,30,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <ImageButton Source="{Binding MyDoctor.picture.medium}" HorizontalOptions="Start" VerticalOptions="Center" CornerRadius="30" WidthRequest="60" HeightRequest="60"/>
+            <VerticalStackLayout Grid.Column="1" Margin="10,0,0,0" HorizontalOptions="Start" VerticalOptions="CenterAndExpand">
+                <Label FontAttributes="Bold">
+                    <Label.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding Path="MyDoctor.name.first"/>
+                            <Binding Path="MyDoctor.name.last"/>
+                        </MultiBinding>
+                    </Label.Text>
+                </Label>
+                <Label Text="{Binding MyDoctor.email}" FontAttributes="Bold" TextColor="DarkGreen"/>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                            <Span Text=" "/>
+                            <Span Text="{Binding MyDoctor.Rating}" TextColor="DarkGray"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+        </Grid>
+        <Rectangle Grid.Row="1" Fill="DarkGray"/>
+        <VerticalStackLayout Grid.Row="2" Margin="0,10,0,0" Spacing="5">
+            <Label Text="Dirección" FontAttributes="Bold" TextColor="DarkGreen"/>
+            <Label FontAttributes="Bold">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" TextColor="Black" Text="Calle: "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.location.street.number}"/>
+                        <Span Text=" "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.location.street.name}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" TextColor="Black" Text="Ciudad: "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.location.city}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" TextColor="Black" Text="Estado: "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.location.state}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" TextColor="Black" Text="Codigo Postal: "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.location.StreetId}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span FontAttributes="Bold" TextColor="Black" Text="Teléfono: "/>
+                        <Span FontAttributes="Bold" TextColor="DarkGray" Text="{Binding MyDoctor.phone}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </VerticalStackLayout>
+        <Frame Grid.Row="3" Padding="0" BorderColor="Transparent" HeightRequest="250">
+            <VerticalStackLayout>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontFamily="SolidIcons" Text="{StaticResource LocPin}" FontSize="15" TextColor="DarkGreen"/>
+                            <Span Text=" "/>
+                            <Span Text="Ubicación" TextColor="DarkGreen"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <maps:Map ItemsSource="{Binding Places}" HeightRequest="200">
+                    <maps:Map.ItemTemplate>
+                        <DataTemplate x:DataType="models:Place">
+                            <maps:Pin Location="{Binding Location}"
+                              Address="{Binding Address}"
+                              Label="{Binding Description}" />
+                        </DataTemplate>
+                    </maps:Map.ItemTemplate>
+                </maps:Map>
+            </VerticalStackLayout>
+        </Frame>
+        <Button Grid.Row="4" Text="Contactar" HeightRequest="50"  CornerRadius="15" BackgroundColor="DarkGreen"/>
+    </Grid>
 </ContentPage>

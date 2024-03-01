@@ -70,6 +70,7 @@ namespace DoctorsList.MVVM.MODEL
         [OneToOne(CascadeOperations = CascadeOperation.All)]
         public Location location { get; set; }
         public string email { get; set; }
+        public string phone { get; set; }
 
         [ForeignKey(typeof (Picture))]
         public int PictureID { get; set; }

@@ -9,11 +9,15 @@
     <ContentPage.BindingContext>
         <VM:DoctorsListViewModel></VM:DoctorsListViewModel>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <x:String x:Key="Star">&#xf005;</x:String>
+        <x:String x:Key="LocPin">&#xf3c5;</x:String>
+    </ContentPage.Resources>
     <ContentPage.Behaviors>
         <behaviors:EventToCommandBehavior EventName="Appearing" Command="{Binding GenerateUsersCommand}"/>
     </ContentPage.Behaviors>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cerrar Sesion" Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesion" Order="Secondary" Command="{Binding CerrarSesionCommand}"/>
     </ContentPage.ToolbarItems>
     <Shell.TitleView>
         <HorizontalStackLayout VerticalOptions="Fill">
@@ -60,16 +64,25 @@
                                     </Label.Text>
                                 </Label>
                                 <Label Text="{Binding email}" TextColor="Green" FontAttributes="Bold"/>
-                                <Label TextColor="Gray">
-                                    <Label.Text>
-                                        <MultiBinding StringFormat="{}{0} {1}">
-                                            <Binding Path="location.street.name"/>
-                                            <Binding Path="location.street.number"/>
-                                        </MultiBinding>
-                                    </Label.Text>
+                                <Label >
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontFamily="SolidIcons" Text="{StaticResource LocPin}" FontSize="15" TextColor="Gray"/>
+                                            <Span TextColor="Gray" Text="{Binding location.street.number}"/>
+                                            <Span TextColor="Gray" Text=" "/>
+                                            <Span TextColor="Gray" Text="{Binding location.street.name}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
                                 </Label>
                             </VerticalStackLayout>
-                            <Label Text="{Binding Rating}" TextColor="DarkBlue" HorizontalOptions="Start" Grid.Column="2"/>
+                            <Label HorizontalOptions="Start" Grid.Column="2">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span FontFamily="SolidIcons" Text="{StaticResource Star}" FontSize="15" TextColor="Orange"/>
+                                        <Span Text="{Binding Rating}" TextColor="DarkBlue" FontAttributes="Bold"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
                         </Grid>
                     </Frame>
 

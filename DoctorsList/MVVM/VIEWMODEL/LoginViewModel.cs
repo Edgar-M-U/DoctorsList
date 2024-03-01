@@ -50,7 +50,7 @@ namespace DoctorsList.MVVM.VIEWMODEL
             if (await CredentialValidated())
             {
 
-                await Shell.Current.GoToAsync("//DoctorsListView", true);
+                await Shell.Current.GoToAsync("//DoctorsListView?param=true", true);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace DoctorsList.MVVM.VIEWMODEL
                    return false;
                }
                result.isUserLoggedIn = true;
-               App.loginRepository.LoginSucced(result);
+               App.loginRepository.LoginOrLogout(result);
                return true;
            });
         }

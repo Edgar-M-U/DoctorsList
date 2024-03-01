@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DoctorsList.MVVM.MODEL;
+using System.Text.Json;
 
 namespace DoctorsList.Repositories
 {
@@ -41,9 +42,14 @@ namespace DoctorsList.Repositories
             return connection.Table<LoginModel>().FirstOrDefault(x => x.User == loginCredential.User && x.Password == loginCredential.Password);
         }
 
-        public void LoginSucced(LoginModel loginCredential)
+        public void LoginOrLogout(LoginModel loginCredential)
         {
             connection.Update(loginCredential);
+        }
+
+        public LoginModel GetCurrentUser()
+        {
+            return connection.Table<LoginModel>().FirstOrDefault(x => x.isUserLoggedIn == true);
         }
 
         public async Task<bool> CheckIfLoggedIn()

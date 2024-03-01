@@ -14,10 +14,14 @@ namespace DoctorsList
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .UseMauiMaps()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Brands-Regular-400.otf", "BrandsIcons");
+                    fonts.AddFont("Free-Regular-400.otf", "RegularIcons");
+                    fonts.AddFont("Free-Solid-900.otf", "SolidIcons");
                 });
 
             builder.Services.AddSingleton<LoginRepository>();
